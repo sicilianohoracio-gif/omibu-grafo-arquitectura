@@ -52,6 +52,8 @@ test('módulo sin nodo y fichero nuevo', () => {
 test('import relativo que sale del alcance: error salvo excepción declarada', () => {
   const f = { ...fuentes, 'src/c.js': "import '../otro/x.js';" };
   assert.match(cross(canonico(grafo()), f).errors.join('\n'), /ni en el alcance ni en el grafo/);
+  assert.match(cross(canonico(grafo()), { ...fuentes, 'src/c.js': "import '../lib/sin_extension';" }).errors.join('\n'), /ni en el alcance ni en el grafo/);
+  assert.deepEqual(cross(canonico(grafo()), { ...fuentes, 'src/c.js': "import './foto.jpg';" }).errors, []);
   assert.deepEqual(cross(canonico(grafo()), f, { ignorar: [{ re: /otro\/x\.js$/, motivo: 'prueba' }] }).errors, []);
 });
 test('vocabulario de/a + estado, y status por fichero único', () => {

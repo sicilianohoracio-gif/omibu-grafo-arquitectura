@@ -45,7 +45,8 @@ export function cross(canon, sources, opts = {}) {
   const found = imports(sources, { ...opts, conocidos: [...nodesOf.keys()] });
   for (const { from, to, kind } of found) {
     if (kind === 'fuera') {
-      if (CODIGO.test(to) && !ignorar.some(({ re }) => re.test(`${from} -> ${to}`))) errors.push(`${from} importa ${to}, que no está ni en el alcance ni en el grafo.`);
+      // Sin extensión también es código (import '../lib/x'): solo se perdona lo que lleva extensión de recurso (imagen, audio, json).
+      if ((CODIGO.test(to) || !/\.[a-z0-9]+$/i.test(to)) && !ignorar.some(({ re }) => re.test(`${from} -> ${to}`))) errors.push(`${from} importa ${to}, que no está ni en el alcance ni en el grafo.`);
       continue;
     }
     const origen = nodesOf.get(from), destino = kind === 'paquete' ? (packages.has(to) ? new Set([packages.get(to)]) : null) : nodesOf.get(to);
