@@ -1,0 +1,12 @@
+{
+  "name": "@omibu/grafo-arquitectura",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cruza el architecture.json de una app con los imports reales de su código, en los dos sentidos, y se sabotea a sí mismo en cada pasada. Sin dependencias.",
+  "exports": { ".": "./src/index.mjs" },
+  "bin": { "grafo-sabotaje": "./bin/sabotaje.mjs" },
+  "files": ["src", "bin"],
+  "engines": { "node": ">=20" },
+  "scripts": { "test": "node --test test/*.test.mjs" }
+}
