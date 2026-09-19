@@ -1,5 +1,8 @@
 # Cambios
 
+## 0.1.2 — 19-sep-2026
+En JS se quita la consulta de caché del import (`./common.js?rev=2`) y una ruta absoluta que entra en un `node_modules` cuenta como paquete.
+
 ## 0.1.1 — 19-sep-2026
 Un import relativo sin extensión que sale del alcance también es un error (antes solo lo era si llevaba extensión de código). Lo que lleva extensión de recurso (imagen, audio, json) se sigue perdonando.
 

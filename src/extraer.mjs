@@ -103,8 +103,11 @@ export function imports(sources, { conocidos = [], webRoots = [], pyRoots = [] }
       for (const spec of modulos) if (!REMOTO.test(spec)) out.push(spec.startsWith('.') || spec.startsWith('/') ? relativo(file, spec, webRoots) : { from: file, to: paquete(spec), kind: 'paquete' });
       continue;
     }
-    for (const spec of specsJs(text)) {
-      if (REMOTO.test(spec)) continue; // node:fs, cloudflare:workers, https://...
+    for (const crudo of specsJs(text)) {
+      if (REMOTO.test(crudo)) continue; // node:fs, cloudflare:workers, https://...
+      const spec = crudo.replace(/[?#].*$/, ''); // './common.js?rev=2' es './common.js'
+      // Una ruta absoluta del disco que entra en un node_modules es un paquete, no un módulo de la app.
+      if (spec.includes('/node_modules/')) { out.push({ from: file, to: paquete(spec.split('/node_modules/').pop()), kind: 'paquete' }); continue; }
       out.push(spec.startsWith('.') || spec.startsWith('/') ? relativo(file, spec, webRoots) : { from: file, to: paquete(spec), kind: 'paquete' });
     }
   }

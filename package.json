@@ -1,6 +1,6 @@
 {
   "name": "@omibu/grafo-arquitectura",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "description": "Cruza el architecture.json de una app con los imports reales de su código, en los dos sentidos, y se sabotea a sí mismo en cada pasada. Sin dependencias.",

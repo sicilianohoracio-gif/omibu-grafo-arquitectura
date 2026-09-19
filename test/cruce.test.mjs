@@ -21,6 +21,10 @@ test('extrae import, export from, import(), require y descarta comentarios', () 
   for (const e of ['src/a.js -> src/b.js [fichero]', 'src/a.js -> src/c.js [fichero]', 'src/a.js -> react [paquete]', 'src/a.js -> @omibu/runtime [paquete]', 'src/b.js -> src/c.js [fichero]', 'src/b.js -> src/d.mjs [fichero]']) assert.ok(p.includes(e), e);
   assert.ok(!p.some(e => e.includes('fantasma')) && !p.some(e => e.startsWith('src/c.js')));
 });
+test('js: la consulta de caché se quita y una ruta absoluta a node_modules es un paquete', () => {
+  const p = imports({ 'a.js': "import './b.js?rev=2'; import pp from '/Users/x/otro/node_modules/puppeteer-core';", 'b.js': '' }).map(i => `${i.to} [${i.kind}]`);
+  assert.deepEqual(p.sort(), ['b.js [fichero]', 'puppeteer-core [paquete]']);
+});
 test('css: relativo y paquete', () => { const p = pares(); assert.ok(p.includes('src/piel.css -> src/base.css [fichero]')); assert.ok(p.includes('src/piel.css -> @omibu/runtime [paquete]')); });
 test('html: script src, hoja de estilo con raíz web, módulo en línea; lo remoto fuera', () => {
   const p = pares({ webRoots: ['web', 'src'] });
